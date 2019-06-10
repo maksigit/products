@@ -29,9 +29,27 @@ code {
 }
 
 
-.wrap-form-login {
-  text-align: center;
+.wrap-all-products {
+  /*text-align: center;*/
   margin-top: 30px;
+  display: flex;
+  flex-wrap: wrap;
+  box-sizing: border-box;
+}
+
+.wrap-all-products .item {
+  width: 29%;
+  border: 1px solid #000;
+  padding: 10px;
+  margin: 10px;
+}
+.wrap-all-products .item .item-name,.item-desc,.item-price {
+  display: flex;
+}
+
+.wrap-all-products .item .text{
+  min-width: 55px;
+  font-weight: bold;
 }
 
 .wrap-form-register {

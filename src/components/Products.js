@@ -3,6 +3,10 @@ import {connect} from 'react-redux';
 
 class Products extends Component {
 
+    state = {
+        someText: null
+    };
+
     getTokenFromLS = () => {
         return localStorage.getItem('token')
     };
@@ -18,11 +22,11 @@ class Products extends Component {
             }
         }).then(res => res.json())
             .then(jsonStr => this.setState({ list: jsonStr }))
-            .then(data => console.log('1', this.state.list))
+            .then(data => console.log('1', this.state.list));
             // .then(jsonStr => this.setState({ apiInfo: jsonStr }))
             // .then(data => console.log('stattt', data))
 
-            .then(data => {this.props.setTodo(this.state.list)})
+            // .then(data => {this.props.setTodo(this.state.list)})
 
 
         console.log('state =>', this.state)
@@ -30,10 +34,14 @@ class Products extends Component {
 
     render() {
         return (
-            <div className='wrap-form-login'>
-                {this.props.testStore.map(function (item, i, arr) {
-                    return <div> {item.id} </div>
-                })}
+            <div className='wrap-all-products'>
+                {this.state.list != null ? this.state.list.map(function (item, i) {
+                    return <div className='item'>
+                        <div className='item-name'><span className='text'>Name: </span><span>{item.name}</span></div>
+                        <div className='item-desc'><span className='text'>Desc: </span><span>{item.description}</span></div>
+                        <div className='item-price'><span className='text'>Price: </span><span>{item.price}</span></div>
+                    </div>
+                }) : 'please wait'}
             </div>
         )
     }
@@ -41,15 +49,15 @@ class Products extends Component {
 
 export default connect(
     state => {
-        console.log('store ', state);
+        console.log('state prod => ', state);
         return ({
             testStore: state
         })
     },
     dispatch => {
         return ({
-            setTodo: (todolist) => {
-                dispatch({type: 'SET_TODO', payload: todolist})
+            setSome: (todolist) => {
+                dispatch({type: 'SET_SOME', payload: todolist})
             },
         })
     }

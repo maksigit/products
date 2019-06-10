@@ -5,7 +5,7 @@ export function rPosts(state = [], action) {
             ...state,
             action.payload,
         ];
-    } else if (action.type === 'SET_TODO') {
+    } else if (action.type === 'SET_SOME') {
         return [
             ...state,
             action.payload,
