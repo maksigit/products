@@ -15,9 +15,6 @@ import Links from './components/Links';
 
 const store = createStore(rPosts);
 console.log('MyStore =>', store);
-console.log('MyTestStore =>', store.testStore);
-console.log('GetStore =>', store.getState());
-
 
 ReactDOM.render(
     <Provider store={store}>
