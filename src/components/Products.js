@@ -4,7 +4,12 @@ import {connect} from 'react-redux';
 class Products extends Component {
 
     state = {
-        someText: null
+        someText: null,
+        id: null,
+        name: null,
+        desc: null,
+        price: null,
+        status: null
     };
 
     getTokenFromLS = () => {
@@ -23,19 +28,23 @@ class Products extends Component {
             .then(products => this.props.toLoad(products))
     };
 
-    // removeItem = (id) => {
-    //     fetch('https://gentle-escarpment-19443.herokuapp.com/v1/articles/' + id, {
-    //         method: 'GET',
-    //         headers: {
-    //             'Accept': 'application/json',
-    //             'Content-Type': 'application/json',
-    //             'Authorization': this.getTokenFromLS()
-    //         }
-    //     }).then(res => res.json())
-    //         .then(products => this.props.toLoad(products))
-    // };
+    toObjJson = () => {
+        console.log (JSON.stringify({
+            "group_id": this.state.id.value,
+            "name": this.state.name.value,
+            "description": this.state.desc.value,
+            "price": this.state.price.value,
+            "status": this.state.status.value
+        }) );
 
-
+        return this.props.addItem ({
+            "group_id": +this.state.id.value,
+            "name": this.state.name.value,
+            "description": this.state.desc.value,
+            "price": this.state.price.value,
+            "status": +this.state.status.value
+        });
+    };
 
     render() {
         var removeById = (id) => {
@@ -43,7 +52,26 @@ class Products extends Component {
         };
         return (
             <div className='wrapper'>
-                <button onClick={this.getProducts}>To load Products</button>
+                <div className='add-product'>
+                    <label htmlFor="">ID:
+                    <input type="text" ref={(input) => {this.state.id = input}}/>
+                    </label>
+                    <label htmlFor="">Name:
+                    <input type="text" ref={(input) => {this.state.name = input}}/>
+                    </label>
+                    <label htmlFor="">Desc:
+                    <input type="text" ref={(input) => {this.state.desc = input}}/>
+                </label>
+                    <label htmlFor="">Price:
+                    <input type="text" ref={(input) => {this.state.price = input}}/>
+                </label>
+                    <label htmlFor="">Status:
+                    <input type="text" ref={(input) => {this.state.status = input}}/>
+                </label>
+                    <button onClick={this.toObjJson}>Add Product</button>
+                </div>
+
+                <button className='btn' onClick={this.getProducts}>Load ALL Products</button>
                 <div className='wrap-all-products'>
                     {this.props.testStore != null ? this.props.testStore.map(function (item, i) {
                         if (item.status !== 0) {
@@ -86,6 +114,9 @@ export default connect(
             },
             removeItem: (id) => {
                 dispatch({type: 'REMOVE_ITEM', payload: id})
+            },
+            addItem: (obj) => {
+                dispatch({type: 'ADD_ITEM', payload: obj})
             }
         })
     }
