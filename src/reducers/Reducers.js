@@ -16,6 +16,21 @@ function addItem(temp, obj) {
         .then(products => console.log('add =>', products))
 }
 
+function editItem(temp, obj) {
+    console.log('edit', obj);
+    fetch('https://gentle-escarpment-19443.herokuapp.com/v1/articles/' + obj.group_id, {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': getTokenFromLS()
+        },
+        body: JSON.stringify(obj)
+    })
+        // .then(res => res.json())
+        // .then(products => console.log('edit =>', products))
+}
+
 function removeItem(temp, id) {
     return temp.map(function (item) {
         if (item.id === id) {
@@ -51,6 +66,8 @@ export function rPosts(state = [], action) {
         return toLoad(state, action.payload);
     } else if (action.type === 'ADD_ITEM') {
         return addItem(state, action.payload);
+    } else if (action.type === 'EDIT_ITEM') {
+        return editItem(state, action.payload);
     } else {
         return state
     }

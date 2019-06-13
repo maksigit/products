@@ -29,15 +29,17 @@ class Products extends Component {
     };
 
     toObjJson = () => {
-        console.log (JSON.stringify({
-            "group_id": this.state.id.value,
+        return this.props.addItem ({
+            "group_id": +this.state.id.value,
             "name": this.state.name.value,
             "description": this.state.desc.value,
             "price": this.state.price.value,
-            "status": this.state.status.value
-        }) );
+            "status": +this.state.status.value
+        });
+    };
 
-        return this.props.addItem ({
+    toObjJsonEdit = () => {
+        return this.props.editItem ({
             "group_id": +this.state.id.value,
             "name": this.state.name.value,
             "description": this.state.desc.value,
@@ -52,6 +54,7 @@ class Products extends Component {
         };
         return (
             <div className='wrapper'>
+                <div className='wrap-add-edit'>
                 <div className='add-product'>
                     <label htmlFor="">ID:
                     <input type="text" ref={(input) => {this.state.id = input}}/>
@@ -70,7 +73,25 @@ class Products extends Component {
                 </label>
                     <button onClick={this.toObjJson}>Add Product</button>
                 </div>
-
+                <div className='edit-product'>
+                    <label htmlFor="">ID:
+                    <input type="text" ref={(input) => {this.state.id = input}}/>
+                    </label>
+                    <label htmlFor="">Name:
+                    <input type="text" ref={(input) => {this.state.name = input}}/>
+                    </label>
+                    <label htmlFor="">Desc:
+                    <input type="text" ref={(input) => {this.state.desc = input}}/>
+                </label>
+                    <label htmlFor="">Price:
+                    <input type="text" ref={(input) => {this.state.price = input}}/>
+                </label>
+                    <label htmlFor="">Status:
+                    <input type="text" ref={(input) => {this.state.status = input}}/>
+                </label>
+                    <button onClick={this.toObjJsonEdit}>Edit Product</button>
+                </div>
+                </div>
                 <button className='btn' onClick={this.getProducts}>Load ALL Products</button>
                 <div className='wrap-all-products'>
                     {this.props.testStore != null ? this.props.testStore.map(function (item, i) {
@@ -117,6 +138,9 @@ export default connect(
             },
             addItem: (obj) => {
                 dispatch({type: 'ADD_ITEM', payload: obj})
+            },
+            editItem: (obj) => {
+                dispatch({type: 'EDIT_ITEM', payload: obj})
             }
         })
     }
